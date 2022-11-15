@@ -1,0 +1,21 @@
+# Introduction
+
+* background on oyster importance in ecosystem/ environment
+* oyster pop ~10% of 1980's levels
+    * background on possible causes (over harvesting/ ocean acidification/ Gulf of Maine one of fastest warming regions/ other physiochemical variables)
+* Resteration projects are trying to fix issues
+    * larval reproduction and settlement important for building populations
+
+* Is there a difference in sites for oyster reproduction
+    * larval abundance
+        * if there is a difference, why? (physiochemical data collected possible reasons?)
+
+# Methods
+
+* kable(s) of average occurance of D/V larvae between years at each site
+* ANOVA across years for D/V larvae/ maybe for bewteen sites within each year
+* mean/SD of temp/salinity/pH across years in plot
+* physiochemical vs larvae rates analysis
+* plot lat/ long on top of a map of area
+    * **(this is a maybe, would be a cool graphic, will try if I get to learning how to upload a map to R and add the datapoints)**
+
