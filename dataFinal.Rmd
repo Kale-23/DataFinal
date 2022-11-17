@@ -6,25 +6,75 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
+
+require(tidyverse)
+require(knitr)
+require(broom)
+library(lubridate)
+library(leaflet)
+library(ggthemes)
+
+df <- read.csv("master_data.csv", stringsAsFactors = TRUE)
+df$Date <- mdy(df$Date)
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r}
+head(df)
+#min(df$Site_Lat)
+#max(df$Site_Lat)
+#min(df$Site_Long)
+#max(df$Site_Long)
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+# map, may change from leaflet but then i would need to find map of great bay area
+ 
+```{r}
+leaflet(data = df) %>% 
+  addTiles() %>% 
+    addMarkers( lng = ~Site_Long, lat = ~Site_Lat)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+# physiochemical stuff
+
+```{r}
+dfLong <- df[c(1,7,8,9)] %>% 
+  pivot_longer(Temp:pH, names_to = "physiochemical", values_to = "values")
+dfLong$year <- format(dfLong$Date, "%Y")
+```
+
+```{r}
+
+physiochemicalPlot <- dfLong %>% 
+  ggplot(aes(x = yday(Date), y = values), color = year) +
+  geom_line(aes(color = year)) + 
+  xlab("Day of Year") +
+  facet_grid(dfLong$physiochemical~., scales = "free", labeller = as_labeller(c(Temp = "Temperature (°C)", Sal = "Salinity", pH = "pH")))  +
+     ylab(NULL) +
+  theme_minimal()
+
+physiochemicalPlot
+```
+
+
+
+# larvae type across year and site
+```{r}
+dfLarvalType <- df %>% 
+  pivot_longer(D:V, names_to = "larvalType", values_to = "avgCount")
+head(dfLarvalType)
+```
+
+
+```{r}
+larvalYearSite <- dfLarvalType %>% 
+  ggplot(aes(x = yday(Date), y = avgCount)) +
+  geom_line(aes(color = Site)) +
+  facet_wrap(year(Date)~larvalType, nrow = 3, scales = "free_y") +
+  theme_minimal()
+larvalYearSite
+```
+
+
+
+
