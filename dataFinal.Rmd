@@ -15,6 +15,7 @@ require(broom)
 library(lubridate)
 library(leaflet)
 library(ggthemes)
+library(mapview)
 
 df <- read.csv("master_data.csv", stringsAsFactors = TRUE)
 df$Date <- mdy(df$Date)
@@ -27,22 +28,16 @@ for (i in 1:nrow(df)) {
 
 ```
 
-```{r}
-head(df)
-
-#min(df$Site_Lat)
-#max(df$Site_Lat)
-#min(df$Site_Long)
-#max(df$Site_Long)
-```
-
-# map, may change from leaflet but then i would need to find map of great bay area
+# Leaflet works, epic
  
 ```{r}
-#leaflet(data = df) %>% 
-#  addTiles() %>% 
-#    addMarkers( lng = ~Site_Long, lat = ~Site_Lat)
+map <- leaflet(data = df) %>% 
+  addTiles() %>% 
+    addMarkers( lng = ~Site_Long, lat = ~Site_Lat)
+mapshot(map, file = "Rplot.png")
+
 ```
+![map of Great Bay area with markers for sampling sites](./Rplot.png)
 
 # physiochemical stuff
 
@@ -95,7 +90,7 @@ levels(larvalTypeTable$larvalType) <- c("D-hinge", "Veliger")
 larvalTypeTable2 <- larvalTypeTable %>% 
   group_by(year, larvalType) %>% 
   summarise(avgCount = mean(avgCount)) %>% 
-  mutate(avgCount = formatC(avgCount, digits = 2, format = "e")) %>% 
+  mutate(avgCount = formatC(avgCount, digits = 2, format = "fg")) %>% 
   pivot_wider(names_from = year, values_from = avgCount)
 
 kable(larvalTypeTable2, align = "l")
@@ -113,6 +108,16 @@ larvalTypeTable3 <- larvalTypeTable %>%
 kable(larvalTypeTable3, align = "l", format = "latex", booktabs = TRUE) %>% 
   pack_rows(index = table(fct_inorder(larvalTypeTable3$larvalType)))
 ```
+```{r}
+larvalBox <- larvalTypeTable %>% 
+  ggplot(aes(x = year, y = avgCount)) +
+  geom_boxplot() + 
+  geom_jitter() +
+  labs(x = "Year", y = "Larval Count") +
+  facet_wrap(.~larvalType, scales = "free_y")
+larvalBox
+```
+
 
 # ANOVA stuff
 
@@ -144,6 +149,27 @@ vAOV %>%
   kable(align = "l")
 ```
 
+```{r}
+summary(lm(avgCount ~ Temp, data = dfD)) %>% 
+  tidy() %>% 
+  kable()
+summary(lm(avgCount ~ Sal, data = dfD)) %>% 
+  tidy() %>% 
+  kable()
+summary(lm(avgCount ~ pH, data = dfD)) %>% 
+  tidy() %>% 
+  kable()
+
+summary(lm(avgCount ~ Temp, data = dfV)) %>% 
+  tidy() %>% 
+  kable()
+summary(lm(avgCount ~ Sal, data = dfV)) %>% 
+  tidy() %>% 
+  kable()
+summary(lm(avgCount ~ pH, data = dfV)) %>% 
+  tidy() %>% 
+  kable()
+```
 
 
 
