@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = FALSE)
 require(tidyverse)
 require(knitr)
 require(kableExtra)
+require(papeR)
 require(broom)
 library(lubridate)
 library(leaflet)
@@ -26,16 +27,23 @@ for (i in 1:nrow(df)) {
   }
 }
 
+#converts all years into same year so that figures can show months
+all_year <- function(x) {
+  year(x) <- 1
+  return(x)
+} 
+
 ```
 
 # Leaflet works, epic
  
 ```{r}
-map <- leaflet(data = df) %>% 
-  addTiles() %>% 
-    addMarkers( lng = ~Site_Long, lat = ~Site_Lat)
-mapshot(map, file = "Rplot.png")
+# uncomment if you want to recreate leaflet plot
 
+#map <- leaflet(data = df) %>% 
+  #addTiles() %>% 
+    #addMarkers( lng = ~Site_Long, lat = ~Site_Lat)
+#mapshot(map, file = "Rplot.png")
 ```
 ![map of Great Bay area with markers for sampling sites](./Rplot.png)
 
@@ -50,9 +58,9 @@ dfLong$year <- format(dfLong$Date, "%Y")
 ```{r}
 
 physiochemicalPlot <- dfLong %>% 
-  ggplot(aes(x = yday(Date), y = values), color = year) +
+  ggplot(aes(x = all_year(Date), y = values), color = year) +
   geom_line(aes(color = year)) + 
-  xlab("Day of Year") +
+  xlab("Month") +
   facet_grid(dfLong$physiochemical~., scales = "free", labeller = as_labeller(c(Temp = "Temperature (°C)", Sal = "Salinity", pH = "pH")))  +
      ylab(NULL) +
   theme_minimal()
@@ -72,9 +80,9 @@ head(dfLarvalType)
 
 ```{r}
 larvalYearSite <- dfLarvalType %>% 
-  ggplot(aes(x = yday(Date), y = avgCount)) +
+  ggplot(aes(x = all_year(Date), y = avgCount)) +
   geom_line(aes(color = Site)) +
-  labs(x = "Day of the Year", y = "Average Larval Count") +
+  labs(x = "Month", y = "Average Larval Count") +
   facet_wrap(year(Date)~larvalType, nrow = 3, scales = "free_y") +
   theme_minimal()
 larvalYearSite
@@ -89,7 +97,7 @@ levels(larvalTypeTable$larvalType) <- c("D-hinge", "Veliger")
 
 larvalTypeTable2 <- larvalTypeTable %>% 
   group_by(year, larvalType) %>% 
-  summarise(avgCount = mean(avgCount)) %>% 
+  dplyr::summarise(avgCount = mean(avgCount)) %>% 
   mutate(avgCount = formatC(avgCount, digits = 2, format = "fg")) %>% 
   pivot_wider(names_from = year, values_from = avgCount)
 
@@ -99,7 +107,7 @@ kable(larvalTypeTable2, align = "l")
 ```{r}
 larvalTypeTable3 <- larvalTypeTable %>% 
   group_by(year, larvalType, Site) %>%
-  summarise(avgCount = mean(avgCount)) %>% 
+  dplyr::summarise(avgCount = mean(avgCount)) %>% 
   mutate(avgCount = formatC(avgCount, digits = 2, format = "fg")) %>% 
   pivot_wider(names_from = year, values_from = avgCount) %>% 
   arrange(larvalType) %>% 
@@ -131,8 +139,9 @@ dAOV <- aov(avgCount ~ year + Site, data = dfD)
 
 summary(dAOV)
 
-dAOV %>% 
-  tidy() %>% 
+anova(dAOV) %>% 
+  #tidy() %>%
+  prettify() %>% 
   kable(align = "l")
 
 # V
@@ -144,31 +153,34 @@ vAOV <- aov(avgCount ~ year + Site, data = dfV)
 
 summary(vAOV)
 
-vAOV %>% 
-  tidy() %>% 
+anova(vAOV) %>% 
+  #tidy %>%
+  prettify() %>% 
   kable(align = "l")
 ```
 
 ```{r}
 summary(lm(avgCount ~ Temp, data = dfD)) %>% 
-  tidy() %>% 
+  prettify() %>% 
   kable()
 summary(lm(avgCount ~ Sal, data = dfD)) %>% 
-  tidy() %>% 
+  prettify() %>% 
   kable()
 summary(lm(avgCount ~ pH, data = dfD)) %>% 
-  tidy() %>% 
+  prettify() %>% 
   kable()
 
 summary(lm(avgCount ~ Temp, data = dfV)) %>% 
-  tidy() %>% 
+  prettify() %>% 
   kable()
 summary(lm(avgCount ~ Sal, data = dfV)) %>% 
-  tidy() %>% 
+  prettify() %>% 
   kable()
 summary(lm(avgCount ~ pH, data = dfV)) %>% 
-  tidy() %>% 
+  prettify() %>% 
   kable()
+
+
 ```
 
 
