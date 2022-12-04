@@ -7,7 +7,7 @@ indent: true
 bibliography: References.bib
 header-includes:
 - \usepackage{indentfirst} #indents first paragraph because indent = true doesnt
-- \usepackage{setspace}\doublespacing #double space
+- \usepackage{setspace}\doublespacing #double space to make reading easier
 - \usepackage{sectsty} \sectionfont{\centering} #center headers
 ---
 
@@ -61,8 +61,11 @@ By finding where oyster larvae are most abundant throughout the GBE, this study 
 
 # Methods
 
-Stuff
+All data was collected at the Great Bay Estuary in New Hampshire. Six sites in total were used in the study. Woodman’s Point (WP), Nannie Island (NI), the Lamprey River (LR), and Squamscott River (SR) were collected in the 2018 and 2019 seasons. In the 2020 season WP and NI were used again, while Adams Point (AP) and an oyster farm (OF) were added. Collection of samples from the GBE and counting of D-hinge and Veliger larvae was completed by *Stasse et al.* (All techniques can be found in *insert here*). Physiochemical data was collected by the Oceanic and Atmospheric Administration's (NOAA) National Estuarine Research Reserve System (NERRS) data buoy for each sampling day. 
 
+An analysis of variance (ANOVA) test was performed to test for differences of D-hinge and veliger counts among years. A Tukey's honnestly significant difference (HSD) was performed *post-hoc* among sampling years for D-hinge annd veliger counts. Regression models were performed for pH, temperature, and salinity as independent variables, and D-hinge and veliger counts as dependent variables. Stats were all performed using R 
+
+# Results
 ```{r, echo = FALSE, include = FALSE}
 # uncomment if you want to recreate leaflet plot
 
@@ -183,6 +186,10 @@ anova(vAOV) %>%
   #tidy %>%
   prettify() %>% 
   kable(align = "l")
+ 
+TukeyHSD(vAOV, conf.level = 0.95)
+plot(TukeyHSD(vAOV, conf.level = 0.95), )
+
 ```
 
 ```{r}
