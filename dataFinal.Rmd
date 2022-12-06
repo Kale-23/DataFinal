@@ -175,7 +175,7 @@ dTemp <- dfD %>%
   ggplot(aes(x = Temp, y = avgCount)) +
   geom_point(alpha = 0.5, size = 0.5) +
   geom_smooth(method = "lm", fullrange = TRUE, color = "black") +
-  labs(x = "Temerature (°C)", y = "D-hinge larval count") +
+  labs(x = "Temerature (°C)", y = "log D-hinge larval count") +
   stat_cor(size = 3) +
   theme_minimal() +
   theme(text=element_text(size=10))
@@ -184,7 +184,7 @@ dSal <- dfD %>%
   ggplot(aes(x = Sal, y = avgCount)) +
   geom_point(alpha = 0.5, size = 0.5) +
   geom_smooth(method = "lm", fullrange = TRUE, color = "black") +
-  labs(x = "Salinity", y = "D-hinge larval count") +
+  labs(x = "Salinity", y = " log D-hinge larval count") +
   stat_cor(size = 3) +
   theme_minimal() +
   theme(text=element_text(size=10))
@@ -193,7 +193,7 @@ vTemp <- dfV %>%
   ggplot(aes(x = Temp, y = avgCount)) +
   geom_point(alpha = 0.5, size = 0.5) +
   geom_smooth(method = "lm", fullrange = TRUE, color = "black") +
-  labs(x = "Temperature (°C)", y = "Veliger larval count") +
+  labs(x = "Temperature (°C)", y = "log Veliger larval count") +
   stat_cor(size = 3) +
   theme_minimal() +
   theme(text=element_text(size=10))
@@ -204,26 +204,30 @@ vTemp <- dfV %>%
 ggarrange(dTemp, dSal, vTemp, ncol = 3, heights = 1.5, widths = 2, labels = c("A", "B", "C"), font.label = list(size = 10))
 ```
 
+
+
 # Results
 
-In 2018, mean abundance was `r sumLarvalType[1,3]` (SE = `r sumLarvalType[1,6]`) D-hinge larvae m^-3^, and `r sumLarvalType[2,3]` (SE = `r sumLarvalType[2,6]`) veliger larvae m^-3^. In 2019, mean abundance was `r sumLarvalType[3,3]` (SE = `r sumLarvalType[3,6]`) D-hinge larvae m^-3^, and `r sumLarvalType[4,3]` (SE = `r sumLarvalType[4,6]`) veliger larvae m^-3^. In 2020, mean abundance was `r sumLarvalType[5,3]` (SE = `r sumLarvalType[5,6]`) D-hinge larvae m^-3^, and `r sumLarvalType[6,3]` (SE = `r sumLarvalType[6,6]`, Fig. \ref{fig:site}) veliger larvae m^-3^. Analysis of variance showed `r ifelse(cleanBothAOV[1,6]<=0.05, 'significant', 'insignificant')` differences in the count of both D-hinge and veliger larvae between years (F = `r cleanBothAOV[1,5]`, p `r ifelse(cleanBothAOV[1,6]<0.001, '< 0.001', paste("= ", cleanBothAOV[1,6], sep = ""))`, Fig. \ref{fig:boxplot}). It was found that temperature was positively associated with D-hinge larval counts (p `r ifelse(coef(dTTemp[4])[2,4]<0.001, '< 0.001', paste("= ", format(coef(dTTemp[4])[2,4], digits = 2), sep = ""))`, adj. R^2^ = `r format(dTTemp[9], digits = 2)`, Fig. \ref{fig:regressions}~A~). 
-
- It was found that salinity was negatively associated (p `r ifelse(coef(dTSal[4])[2,4]<0.001, '< 0.001', paste("= ", format(coef(dTSal[4])[2,4], digits = 2), sep = ""))`, adj. R^2^ = `r format(dTSal[9], digits = 2)`, Fig. \ref{fig:regressions}~B~) with D-hinge larval counts.
-
-It was found that temperature was positively associated (p `r ifelse(coef(vTTemp[4])[2,4]<0.001, '< 0.001', paste("= ", format(coef(vTTemp[4])[2,4], digits = 2), sep = ""))`, adj. R^2^ = `r format(vTTemp[9], digits = 2)`, Fig. \ref{fig:regressions}~C~) with veliger larval counts.
+In 2018, mean abundance was `r sumLarvalType[1,3]` (SE = `r sumLarvalType[1,6]`) D-hinge larvae m^-3^, and `r sumLarvalType[2,3]` (SE = `r sumLarvalType[2,6]`) veliger larvae m^-3^. In 2019, mean abundance was `r sumLarvalType[3,3]` (SE = `r sumLarvalType[3,6]`) D-hinge larvae m^-3^, and `r sumLarvalType[4,3]` (SE = `r sumLarvalType[4,6]`) veliger larvae m^-3^. In 2020, mean abundance was `r sumLarvalType[5,3]` (SE = `r sumLarvalType[5,6]`) D-hinge larvae m^-3^, and `r sumLarvalType[6,3]` (SE = `r sumLarvalType[6,6]`, Fig. \ref{fig:site}) veliger larvae m^-3^. Analysis of variance showed `r ifelse(cleanBothAOV[1,6]<=0.05, 'significant', 'insignificant')` differences in the count of both D-hinge and veliger larvae between years (F = `r cleanBothAOV[1,5]`, p `r ifelse(cleanBothAOV[1,6]<0.001, '< 0.001', paste("= ", cleanBothAOV[1,6], sep = ""))`, Fig. \ref{fig:boxplot}). It was found that temperature was positively associated with D-hinge larval counts (p `r ifelse(coef(dTTemp[4])[2,4]<0.001, '< 0.001', paste("= ", format(coef(dTTemp[4])[2,4], digits = 2), sep = ""))`, adj. R^2^ = `r format(dTTemp[9], digits = 2)`, Fig. \ref{fig:regressions}~A~). It was found that salinity was negatively associated (p `r ifelse(coef(dTSal[4])[2,4]<0.001, '< 0.001', paste("= ", format(coef(dTSal[4])[2,4], digits = 2), sep = ""))`, adj. R^2^ = `r format(dTSal[9], digits = 2)`, Fig. \ref{fig:regressions}~B~) with D-hinge larval counts. It was found that temperature was positively associated (p `r ifelse(coef(vTTemp[4])[2,4]<0.001, '< 0.001', paste("= ", format(coef(vTTemp[4])[2,4], digits = 2), sep = ""))`, adj. R^2^ = `r format(vTTemp[9], digits = 2)`, Fig. \ref{fig:regressions}~C~) with veliger larval counts.
  
 # Discussion
 
-The purpose of studying this data was to find factors that could effect oyster larval levels within the GBE. Out of the physiochemical factors that were recorded and analyzed, only temperature was correlated both with D-hinge and veliger larval levels, with salinity only having a correlation with D-hinge larvae counts. 
+The purpose of studying this data was to find factors that could effect oyster larval levels within the GBE.
+
+The data showed that there was not a significant difference in larval count between the different locations collected from. The earliest that larvae were observed in the GBE was in the middle of June, then continued to peak around the middle of July. Observations slowed down through August, and mostly stopped at the beginning of September. There was a significant difference in the amount of larvae found between years, but the most significant difference is comparing this data from 2018-2020 to data from 2013-2015 from *reference*. Just these couple of years since that study, there has been a huge decrease in larval rates in the GBE.
 
 
+Out of the physiochemical factors that were recorded and analyzed, only temperature was positively correlated both with D-hinge and veliger larval levels, with salinity having a negative correlation with only D-hinge larvae counts. These results are similar to those in *referenc3* where higher temperatures and lower salinity resulted in larger observed larvae. 
 
+Knowing that we can find factors that are correlated with larval rates in the GBE, future studies should focus on finding factors that could better predict where restoration efforts would have better or worse effect. Biotic factors such as phytoplankton blooms have been shown to effect other marine organisms, so it would not be surprising if this was found to be the case with oysters as well. Studying more factors would make sure that efforts can be utilized in a more optimal way.
 
+# Bibliography
 
+<div id="refs"></div>
 
+# Appendex/ Extra/
 
-
-```{r, message = FALSE}
+```{r, message = FALSE, fig.cap="Larval collection over year by location, cannot for the life of me get the larval type subtext to go away but it was cool anyways"}
 larvalTypeTable3 <- larvalTypeTable %>% 
   group_by(year, larvalType, Site) %>%
   dplyr::summarise(avgCount = mean(avgCount)) %>% 
@@ -232,31 +236,24 @@ larvalTypeTable3 <- larvalTypeTable %>%
   arrange(larvalType) %>% 
   select(larvalType, everything())
 
-kable(larvalTypeTable3, align = "l", format = "latex", booktabs = TRUE) %>% 
+kable(larvalTypeTable3, align = "l", format = "latex", caption = "larval collection over year by location, the subtext name refuses to go away") %>% 
   pack_rows(index = table(fct_inorder(larvalTypeTable3$larvalType)))
 ```
 
 
-
-
-# ANOVA stuff
-
-```{r, message = FALSE}
-
-anova(bothAOV) %>% 
-  #tidy() %>%
-  prettify() %>% 
-  kable(align = "l")
+```{r, message = FALSE, fig.cap="ANOVA and tukey tests in kables individually for D-hinge ~ year, D-hinge ~ site, veliger ~ year, veliger ~ site"}
 
 # D
 dAOVs <- aov(avgCount ~ Site, data = dfD)
-tukeyds <-tidy(TukeyHSD(dAOVs, conf.level = 0.95))
-kable(tukeyds)
+
 
 anova(dAOVs) %>% 
   #tidy() %>%
   prettify() %>% 
-  kable(align = "l")
+  kable(align = "l", caption = "anova for D-hinge ~ site")
+
+tukeyds <-tidy(TukeyHSD(dAOVs, conf.level = 0.95))
+kable(tukeyds, caption = "tukey for D-hinge ~ site")
 
 
 dAOV <- aov(avgCount ~ year, data = dfD)
@@ -264,74 +261,85 @@ dAOV <- aov(avgCount ~ year, data = dfD)
 anova(dAOV) %>% 
   #tidy() %>%
   prettify() %>% 
-  kable(align = "l")
+  kable(align = "l", caption = "anova for D-hinge ~ year")
 
 tukeyD <- tidy(TukeyHSD(dAOV, conf.level = 0.95))
-kable(tukeyD)
+kable(tukeyD, caption = "tukey for D-hinge ~ year")
 
 
 # V
 
 
-vAOV <- aov(avgCount ~ year, data = dfV)
-
 vAOVs <- aov(avgCount ~ Site, data = dfV)
+
+anova(dAOVs) %>%
+  prettify() %>%
+  kable(align = "l", caption = "anova for veliger ~ site")
+
 tukeyvs <-tidy(TukeyHSD(vAOVs, conf.level = 0.95))
-kable(tukeyvs)
+kable(tukeyvs, caption = "tukey for veliger ~ site")
+
+vAOV <- aov(avgCount ~ year, data = dfV)
 
 anova(vAOV) %>% 
   #tidy %>%
   prettify() %>% 
-  kable(align = "l")
+  kable(align = "l", caption = "anova for veliger ~ year")
  
 tukeyV <-tidy(TukeyHSD(vAOV, conf.level = 0.95))
-kable(tukeyV)
+kable(tukeyV, caption = "tukey for veliger ~ year")
 
 
 ```
 
-```{r}
+```{r, fig.cap="determining which linear regressions are significant for regression figure above"}
 
 dTTemp <- summary(lm(avgCount ~ Temp, data = dfD))
 
 dTTemp %>% 
   prettify() %>% 
-  kable()
+  kable(caption = "determining which linear regressions are significant for regression figure above")
 
 dTSal <- summary(lm(avgCount ~ Sal, data = dfD)) 
 
 dTSal %>% 
   prettify() %>% 
-  kable()
+  kable(caption = "determining which linear regressions are significant for regression figure above")
 
 dTpH <- summary(lm(avgCount ~ pH, data = dfD)) 
 
 dTpH %>% 
   prettify() %>% 
-  kable()
+  kable(caption = "determining which linear regressions are significant for regression figure above")
 
 vTTemp<- summary(lm(avgCount ~ Temp, data = dfV))
 
 vTTemp %>% 
   prettify() %>% 
-  kable()
+  kable(caption = "determining which linear regressions are significant for regression figure above")
 
 vTSal<- summary(lm(avgCount ~ Sal, data = dfV))
 
 vTSal %>% 
   prettify() %>% 
-  kable()
+  kable(caption = "determining which linear regressions are significant for regression figure above")
 
 vTpH <- summary(lm(avgCount ~ pH, data = dfV)) 
 
 vTpH %>% 
   prettify() %>% 
-  kable()
+  kable(caption = "determining which linear regressions are significant for regression figure above")
 ```
 
 
-
-
+```{r, fig.cap= "didn't use this because it more shows when the data was collected rather than something super useful"}
+timeOfYear <- larvalTypeTable %>%
+  ggplot(aes(x = all_year(Date), y = avgCount, color = year)) +
+  geom_bar(stat = "identity", width = 2, aes(fill = year)) +
+  labs(x = "Month", y = "Larval Count") +
+  theme_minimal()
+timeOfYear
+```
 
 ```{r leaflet map, echo = FALSE, include = FALSE}
 # uncomment if you want to recreate leaflet plot
@@ -343,15 +351,12 @@ vTpH %>%
 
 ```
 
-```{r summary stats across years and larval type kable}
+```{r summary stats across years and larval type kable, fig.cap="summary stats"}
 sumLarvalType %>% 
   prettify() %>% 
-  kable(align = "l")
+  kable(align = "l", caption = "summary stats")
 ```
 
-```{r}
-sumLarvalType
-```
 
 
 
