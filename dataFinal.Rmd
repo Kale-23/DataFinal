@@ -208,13 +208,13 @@ ggarrange(dTemp, dSal, vTemp, ncol = 3, heights = 1.5, widths = 2, labels = c("A
 
 In 2018, mean abundance was `r sumLarvalType[1,3]` (SE = `r sumLarvalType[1,6]`) D-hinge larvae m^-3^, and `r sumLarvalType[2,3]` (SE = `r sumLarvalType[2,6]`) veliger larvae m^-3^. In 2019, mean abundance was `r sumLarvalType[3,3]` (SE = `r sumLarvalType[3,6]`) D-hinge larvae m^-3^, and `r sumLarvalType[4,3]` (SE = `r sumLarvalType[4,6]`) veliger larvae m^-3^. In 2020, mean abundance was `r sumLarvalType[5,3]` (SE = `r sumLarvalType[5,6]`) D-hinge larvae m^-3^, and `r sumLarvalType[6,3]` (SE = `r sumLarvalType[6,6]`, Fig. \ref{fig:site}) veliger larvae m^-3^. Analysis of variance showed `r ifelse(cleanBothAOV[1,6]<=0.05, 'significant', 'insignificant')` differences in the count of both D-hinge and veliger larvae between years (F = `r cleanBothAOV[1,5]`, p `r ifelse(cleanBothAOV[1,6]<0.001, '< 0.001', paste("= ", cleanBothAOV[1,6], sep = ""))`, Fig. \ref{fig:boxplot}). It was found that temperature was positively associated with D-hinge larval counts (p `r ifelse(coef(dTTemp[4])[2,4]<0.001, '< 0.001', paste("= ", format(coef(dTTemp[4])[2,4], digits = 2), sep = ""))`, adj. R^2^ = `r format(dTTemp[9], digits = 2)`, Fig. \ref{fig:regressions}~A~). 
 
- It was found that salinity was negatively associated (p `r ifelse(coef(dTSal[4])[2,4]<0.001, '< 0.001', paste("= ", format(coef(dTSal[4])[2,4], digits = 2), sep = ""))`, adj. R^2^ = `r format(dTSal[9], digits = 2)`, Fig. \ref{fig:regressions}~V~) with D-hinge larval counts.
+ It was found that salinity was negatively associated (p `r ifelse(coef(dTSal[4])[2,4]<0.001, '< 0.001', paste("= ", format(coef(dTSal[4])[2,4], digits = 2), sep = ""))`, adj. R^2^ = `r format(dTSal[9], digits = 2)`, Fig. \ref{fig:regressions}~B~) with D-hinge larval counts.
 
 It was found that temperature was positively associated (p `r ifelse(coef(vTTemp[4])[2,4]<0.001, '< 0.001', paste("= ", format(coef(vTTemp[4])[2,4], digits = 2), sep = ""))`, adj. R^2^ = `r format(vTTemp[9], digits = 2)`, Fig. \ref{fig:regressions}~C~) with veliger larval counts.
  
 # Discussion
 
-The purpose of studying this data was to find factors that could effect oyster larval levels within the GBE. Out of the physiochemical factors that were recorded and analyzed, only temperature effected both D-hinge and veliger larval levels,
+The purpose of studying this data was to find factors that could effect oyster larval levels within the GBE. Out of the physiochemical factors that were recorded and analyzed, only temperature was correlated both with D-hinge and veliger larval levels, with salinity only having a correlation with D-hinge larvae counts. 
 
 
 
@@ -249,6 +249,14 @@ anova(bothAOV) %>%
   kable(align = "l")
 
 # D
+dAOVs <- aov(avgCount ~ Site, data = dfD)
+tukeyds <-tidy(TukeyHSD(dAOVs, conf.level = 0.95))
+kable(tukeyds)
+
+anova(dAOVs) %>% 
+  #tidy() %>%
+  prettify() %>% 
+  kable(align = "l")
 
 
 dAOV <- aov(avgCount ~ year, data = dfD)
@@ -266,6 +274,10 @@ kable(tukeyD)
 
 
 vAOV <- aov(avgCount ~ year, data = dfV)
+
+vAOVs <- aov(avgCount ~ Site, data = dfV)
+tukeyvs <-tidy(TukeyHSD(vAOVs, conf.level = 0.95))
+kable(tukeyvs)
 
 anova(vAOV) %>% 
   #tidy %>%
