@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.12.4)  5 DEC 2022 03:37
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.12.4)  5 DEC 2022 22:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -558,55 +558,58 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <7> on input line 103.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 103.
-<./Rplot.png, id=28, 433.62pt x 325.215pt>
+<./Rplot.png, id=32, 433.62pt x 325.215pt>
 File: ./Rplot.png Graphic file (type png)
 <use ./Rplot.png>
-Package pdftex.def Info: ./Rplot.png  used on input line 117.
+Package pdftex.def Info: ./Rplot.png  used on input line 110.
 (pdftex.def)             Requested size: 433.63878pt x 325.22908pt.
-[2] [3 <./Rplot.png>]
-<dataFinal_files/figure-latex/physiochemical variables across year-1.pdf, id=45, 433.62pt x 216.81pt>
+[2 <./Rplot.png>]
+<dataFinal_files/figure-latex/physiochemical variables across year-1.pdf, id=44, 361.35pt x 216.81pt>
 File: dataFinal_files/figure-latex/physiochemical variables across year-1.pdf Graphic file (type pdf)
 <use dataFinal_files/figure-latex/physiochemical variables across year-1.pdf>
-Package pdftex.def Info: dataFinal_files/figure-latex/physiochemical variables across year-1.pdf  used on input line 147.
-(pdftex.def)             Requested size: 433.63878pt x 216.81938pt.
-<dataFinal_files/figure-latex/larval count across year and site-1.pdf, id=46, 433.62pt x 325.215pt>
+Package pdftex.def Info: dataFinal_files/figure-latex/physiochemical variables across year-1.pdf  used on input line 148.
+(pdftex.def)             Requested size: 361.34912pt x 216.80946pt.
+<dataFinal_files/figure-latex/larval count across year and site-1.pdf, id=45, 361.35pt x 271.0125pt>
 File: dataFinal_files/figure-latex/larval count across year and site-1.pdf Graphic file (type pdf)
 <use dataFinal_files/figure-latex/larval count across year and site-1.pdf>
-Package pdftex.def Info: dataFinal_files/figure-latex/larval count across year and site-1.pdf  used on input line 169.
-(pdftex.def)             Requested size: 433.63878pt x 325.22908pt.
-[4 <./dataFinal_files/figure-latex/physiochemical variables across year-1.pdf>]
-<dataFinal_files/figure-latex/boxplot across year and larvalType with signif stars-1.pdf, id=58, 433.62pt x 325.215pt>
+Package pdftex.def Info: dataFinal_files/figure-latex/larval count across year and site-1.pdf  used on input line 156.
+(pdftex.def)             Requested size: 361.34912pt x 271.01183pt.
+[3 <./dataFinal_files/figure-latex/physiochemical variables across year-1.pdf>]
+<dataFinal_files/figure-latex/boxplot across year and larvalType with signif stars-1.pdf, id=57, 361.35pt x 271.0125pt>
 File: dataFinal_files/figure-latex/boxplot across year and larvalType with signif stars-1.pdf Graphic file (type pdf)
 <use dataFinal_files/figure-latex/boxplot across year and larvalType with signif stars-1.pdf>
-Package pdftex.def Info: dataFinal_files/figure-latex/boxplot across year and larvalType with signif stars-1.pdf  used on input line 176.
-(pdftex.def)             Requested size: 433.63878pt x 325.22908pt.
-[5 <./dataFinal_files/figure-latex/larval count across year and site-1.pdf>] [6 <./dataFinal_files/figure-latex/boxplot across year and larvalType with signif stars-1.pdf>] [7]
-<dataFinal_files/figure-latex/unnamed-chunk-6-1.pdf, id=89, 433.62pt x 144.54pt>
-File: dataFinal_files/figure-latex/unnamed-chunk-6-1.pdf Graphic file (type pdf)
-<use dataFinal_files/figure-latex/unnamed-chunk-6-1.pdf>
-Package pdftex.def Info: dataFinal_files/figure-latex/unnamed-chunk-6-1.pdf  used on input line 318.
+Package pdftex.def Info: dataFinal_files/figure-latex/boxplot across year and larvalType with signif stars-1.pdf  used on input line 163.
+(pdftex.def)             Requested size: 361.34912pt x 271.01183pt.
+[4 <./dataFinal_files/figure-latex/larval count across year and site-1.pdf>]
+<dataFinal_files/figure-latex/unnamed-chunk-1-1.pdf, id=68, 433.62pt x 144.54pt>
+File: dataFinal_files/figure-latex/unnamed-chunk-1-1.pdf Graphic file (type pdf)
+<use dataFinal_files/figure-latex/unnamed-chunk-1-1.pdf>
+Package pdftex.def Info: dataFinal_files/figure-latex/unnamed-chunk-1-1.pdf  used on input line 173.
 (pdftex.def)             Requested size: 433.63878pt x 144.54623pt.
-[8 <./dataFinal_files/figure-latex/unnamed-chunk-6-1.pdf>]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 338.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 177.
+(/Users/kalebducharme/Library/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
+File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+) [5 <./dataFinal_files/figure-latex/boxplot across year and larvalType with signif stars-1.pdf> <./dataFinal_files/figure-latex/unnamed-chunk-1-1.pdf>] [6] [7]
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 364.
 (/Users/kalebducharme/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [9] (./dataFinal.aux)
+) [8] (./dataFinal.aux)
 Package rerunfilecheck Info: File `dataFinal.out' has not changed.
-(rerunfilecheck)             Checksum: E4465F1660A9BF75FACC66338106836C;364.
+(rerunfilecheck)             Checksum: F4A8B99FC3E26CF3A413F1533688DDC7;458.
  ) 
 Here is how much of TeX's memory you used:
- 12490 strings out of 476928
- 201194 string characters out of 5823970
- 548977 words of memory out of 5000000
- 33467 multiletter control sequences out of 15000+600000
- 519226 words of font info for 69 fonts, out of 8000000 for 9000
+ 12531 strings out of 476928
+ 202188 string characters out of 5823970
+ 556844 words of memory out of 5000000
+ 33502 multiletter control sequences out of 15000+600000
+ 519591 words of font info for 70 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 72i,7n,77p,452b,472s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{/Users/kalebducharme/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</Users/kalebducharme/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/kalebducharme/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Users/kalebducharme/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/kalebducharme/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/kalebducharme/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></Users/kalebducharme/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></Users/kalebducharme/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/kalebducharme/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on dataFinal.pdf (9 pages, 513396 bytes).
+ 72i,7n,77p,452b,444s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{/Users/kalebducharme/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/Users/kalebducharme/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}</Users/kalebducharme/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/kalebducharme/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Users/kalebducharme/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/kalebducharme/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/kalebducharme/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></Users/kalebducharme/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></Users/kalebducharme/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/kalebducharme/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
+Output written on dataFinal.pdf (8 pages, 517955 bytes).
 PDF statistics:
- 156 PDF objects out of 1000 (max. 8388607)
- 117 compressed objects within 2 object streams
- 22 named destinations out of 1000 (max. 500000)
- 58 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 167 PDF objects out of 1000 (max. 8388607)
+ 128 compressed objects within 2 object streams
+ 24 named destinations out of 1000 (max. 500000)
+ 66 words of extra memory for PDF output out of 10000 (max. 10000000)
 

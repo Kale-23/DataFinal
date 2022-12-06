@@ -18,7 +18,7 @@ header-includes:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
-knitr::opts_chunk$set(fig.height = 4.5, fig.width = 6)
+knitr::opts_chunk$set(fig.height = 3.75, fig.width = 5)
 #knitr::opts_chunk$set(comment = FALSE)
 
 require(tidyverse)
@@ -60,20 +60,21 @@ Sadly, a catastrophic decline in New Hampshire oyster population has been record
   
 There have been restorative efforts in the local Great Bay Estuary (GBE) of New Hampshire. Oyster spat has been distributed in restoration sites in the GBE, with different sites having varying degrees of success. Restorative success depends on recruitment in wild populations of oysters, which can depend on many factors. The ocean absorbs CO~2~ from the air. When air CO~2~ concentrations increase, it causes the pH of the ocean to go down into a more acidic environment called ocean acidification which can affect shell growth in early larval stages. 
 
+![Six sites marked with blue markers in the Great Bay Estuary where oyster data was collected. For a more detailed description of data collection, see *Stasse et al.*](./Rplot.png)
+
 *Salinity stuff, temperature stuff.*  
 
-By finding where oyster larvae are most abundant throughout the GBE, this study aims to find the best environmental conditions for oyster reproduction. This data will aid future restoration efforts by showing what factors and sites to focus on for optimal results.
+By finding where oyster larvae are most abundant throughout the GBE, this study aims to find the best environmental conditions for oyster reproduction. This data will aid future restoration efforts by showing what factors to focus on for optimal restoration results.
 
 
-![Six sites marked with blue markers in the Great Bay Estuary where oyster data was collected. For a more detailed description of data collection, see *Stasse et al.*](./Rplot.png)
 
 # Methods
 
 All data was collected at the Great Bay Estuary in New Hampshire. Six sites in total were used in the study. Woodman’s Point (WP), Nannie Island (NI), the Lamprey River (LR), and Squamscott River (SR) were collected in the 2018 and 2019 seasons. In the 2020 season WP and NI were used again, while Adams Point (AP) and an oyster farm (OF) were added. Collection of samples from the GBE and counting of D-hinge and Veliger larvae was completed by *Stasse et al.* (All techniques can be found in *insert here*). Physiochemical data was collected by the Oceanic and Atmospheric Administration's (NOAA) National Estuarine Research Reserve System (NERRS) data buoy for each sampling day. 
 
-An analysis of variance (ANOVA) test was performed to test for differences of D-hinge and veliger counts among years. A Tukey's honnestly significant difference (HSD) was performed *post-hoc* among sampling years for D-hinge annd veliger counts. Regression models were performed for pH, temperature, and salinity as independent variables, and D-hinge and veliger counts as dependent variables. Stats were all performed using R *stuff here*.
+An analysis of variance (ANOVA) test was performed to test for differences of D-hinge and veliger counts among years. A Tukey's honnestly significant difference (HSD) was performed *post-hoc* among sampling years for D-hinge annd veliger counts. Regression models were performed for pH, temperature, and salinity as independent variables, and D-hinge and veliger counts as dependent variables using log(count) adjusted data to meet normalcy standards. Stats were all performed using R *stuff here*.
 
-```{r physiochemical variables across year, fig.cap= "Physiochemical data from 2018, 2019, and 2020. pH (Top), salinity (Middle), and Temperature (Bottom) are included.", fig.height = 3}
+```{r physiochemical variables across year, fig.cap= "Physiochemical data from 2018, 2019, and 2020. pH (Top), salinity (Middle), and Temperature (Bottom) are included.\\label{fig:physiochemical}", fig.height=3} 
 dfLong <- df[c(1,7,8,9)] %>% 
   pivot_longer(Temp:pH, names_to = "physiochemical", values_to = "values")
 dfLong$year <- format(dfLong$Date, "%Y")
@@ -89,14 +90,11 @@ physiochemicalPlot <- dfLong %>%
 physiochemicalPlot
 ```
 
-# Results
 
-```{r, message = FALSE}
+```{r data setup}
 dfLarvalType <- df %>% 
   pivot_longer(D:V, names_to = "larvalType", values_to = "avgCount")
-```
 
-```{r}
 larvalTypeTable <- dfLarvalType
 larvalTypeTable$year <- format(larvalTypeTable$Date, "%Y")
 larvalTypeTable$year <- factor(larvalTypeTable$year)
@@ -111,7 +109,6 @@ sumLarvalType <- larvalTypeTable %>%
   mutate(mean = formatC(mean, digits = 2, format = "fg")) %>% 
   mutate(sd = formatC(sd, digits = 2, format = "fg")) %>%
   mutate(se = formatC(se, digits = 2, format = "fg")) 
-
 ```
 
 ```{r anova of both larvae across year}
@@ -129,24 +126,25 @@ cleanBothAOV <- bothAOV %>%
 dfD <- dfLarvalType %>% 
   filter(larvalType == "D")
 dfD$year <- format(dfD$Date, "%Y")
+dfD$avgCount[dfD$avgCount == 0] <- NA
+dfD$avgCount <- log(dfD$avgCount)
+
 
 dfV <- dfLarvalType %>% 
   filter(larvalType == "V")
 dfV$year <- format(dfV$Date, "%Y")
+#plot(lm(avgCount ~ pH, data = dfV))
+dfV$avgCount[dfV$avgCount == 0] <- NA
+dfV$avgCount <- log(dfV$avgCount)
+#plot(lm(avgCount ~ pH, data = dfV))
+
 
 dTTemp <- summary(lm(avgCount ~ Temp, data = dfD))
-
+dTSal <- summary(lm(avgCount ~ Sal, data = dfD)) 
 vTTemp<- summary(lm(avgCount ~ Temp, data = dfV))
-vTpH <- summary(lm(avgCount ~ pH, data = dfV)) 
+
 ```
-
-
-In 2018, mean abundance was `r sumLarvalType[1,3]` (SE = `r sumLarvalType[1,6]`) D-hinge larvae m^-3^, and `r sumLarvalType[2,3]` (SE = `r sumLarvalType[2,6]`) veliger larvae m^-3^. In 2019, mean abundance was `r sumLarvalType[3,3]` (SE = `r sumLarvalType[3,6]`) D-hinge larvae m^-3^, and `r sumLarvalType[4,3]` (SE = `r sumLarvalType[4,6]`) veliger larvae m^-3^. In 2020, mean abundance was `r sumLarvalType[5,3]` (SE = `r sumLarvalType[5,6]`) D-hinge larvae m^-3^, and `r sumLarvalType[6,3]` (SE = `r sumLarvalType[6,6]`, *figure stuff*) veliger larvae m^-3^. Analysis of variance showed `r ifelse(cleanBothAOV[1,6]<=0.05, 'significant', 'insignificant')` differences in the count of both D-hinge and veliger larvae between years (F = `r cleanBothAOV[1,5]`, p `r ifelse(cleanBothAOV[1,6]<0.001, '< 0.0001', paste("= ", cleanBothAOV[1,6], sep = ""))`*figure stuff*). It was found that temperature was positivly associated with D-hinge larval counts ()
-
-
-
-
-```{r larval count across year and site, fig.cap= "D-hinge and veliger oyster larval counts by site. 2018 (Top), 2019 (Middle), 2020 (Bottom) are included."}
+```{r larval count across year and site, fig.cap= "D-hinge and veliger oyster larval counts by site. 2018 (Top), 2019 (Middle), 2020 (Bottom) are included.\\label{fig:site}"}
 larvalYearSite <- dfLarvalType %>% 
   ggplot(aes(x = all_year(Date), y = avgCount)) +
   geom_line(aes(color = Site)) +
@@ -157,7 +155,7 @@ larvalYearSite
 ```
 
 
-```{r boxplot across year and larvalType with signif stars, fig.cap = "GBE larval counts of D-hinge (Left) and veliger (Right) collected in 2018, 2019, and 2020. Black dots are counts during individual collection days. Midlines within each boxplot represent median values, and the boxes represent the first (Bottom) and third (Top) quartile ranges (25th and 75th percentiles)"}
+```{r boxplot across year and larvalType with signif stars, fig.cap = "GBE larval counts of D-hinge (Left) and veliger (Right) collected in 2018, 2019, and 2020. Black dots are counts during individual collection days. Midlines within each boxplot represent median values, and the boxes represent the first (Bottom) and third (Top) quartile ranges (25th and 75th percentiles)\\label{fig:boxplot}"}
 larvalBox <- larvalTypeTable %>% 
   ggplot(aes(x = year, y = avgCount)) +
   geom_jitter() +
@@ -170,6 +168,60 @@ larvalBox <- larvalTypeTable %>%
   theme_minimal()
 larvalBox
 ```
+
+```{r, fig.cap = "(A) Regression model of D-hinge oyster larvae and temperature (°C), (B) D-hinge oyster larvae and salinity, and (C) veliger oyster larvae and temperature with corresponding trendlines and 95% confdence intervals shown in gray\\label{fig:regressions}",fig.height= 2.0, fig.width= 6}
+
+dTemp <- dfD %>% 
+  ggplot(aes(x = Temp, y = avgCount)) +
+  geom_point(alpha = 0.5, size = 0.5) +
+  geom_smooth(method = "lm", fullrange = TRUE, color = "black") +
+  labs(x = "Temerature (°C)", y = "D-hinge larval count") +
+  stat_cor(size = 3) +
+  theme_minimal() +
+  theme(text=element_text(size=10))
+
+dSal <- dfD %>% 
+  ggplot(aes(x = Sal, y = avgCount)) +
+  geom_point(alpha = 0.5, size = 0.5) +
+  geom_smooth(method = "lm", fullrange = TRUE, color = "black") +
+  labs(x = "Salinity", y = "D-hinge larval count") +
+  stat_cor(size = 3) +
+  theme_minimal() +
+  theme(text=element_text(size=10))
+
+vTemp <- dfV %>% 
+  ggplot(aes(x = Temp, y = avgCount)) +
+  geom_point(alpha = 0.5, size = 0.5) +
+  geom_smooth(method = "lm", fullrange = TRUE, color = "black") +
+  labs(x = "Temperature (°C)", y = "Veliger larval count") +
+  stat_cor(size = 3) +
+  theme_minimal() +
+  theme(text=element_text(size=10))
+
+
+
+
+ggarrange(dTemp, dSal, vTemp, ncol = 3, heights = 1.5, widths = 2, labels = c("A", "B", "C"), font.label = list(size = 10))
+```
+
+# Results
+
+In 2018, mean abundance was `r sumLarvalType[1,3]` (SE = `r sumLarvalType[1,6]`) D-hinge larvae m^-3^, and `r sumLarvalType[2,3]` (SE = `r sumLarvalType[2,6]`) veliger larvae m^-3^. In 2019, mean abundance was `r sumLarvalType[3,3]` (SE = `r sumLarvalType[3,6]`) D-hinge larvae m^-3^, and `r sumLarvalType[4,3]` (SE = `r sumLarvalType[4,6]`) veliger larvae m^-3^. In 2020, mean abundance was `r sumLarvalType[5,3]` (SE = `r sumLarvalType[5,6]`) D-hinge larvae m^-3^, and `r sumLarvalType[6,3]` (SE = `r sumLarvalType[6,6]`, Fig. \ref{fig:site}) veliger larvae m^-3^. Analysis of variance showed `r ifelse(cleanBothAOV[1,6]<=0.05, 'significant', 'insignificant')` differences in the count of both D-hinge and veliger larvae between years (F = `r cleanBothAOV[1,5]`, p `r ifelse(cleanBothAOV[1,6]<0.001, '< 0.001', paste("= ", cleanBothAOV[1,6], sep = ""))`, Fig. \ref{fig:boxplot}). It was found that temperature was positively associated with D-hinge larval counts (p `r ifelse(coef(dTTemp[4])[2,4]<0.001, '< 0.001', paste("= ", format(coef(dTTemp[4])[2,4], digits = 2), sep = ""))`, adj. R^2^ = `r format(dTTemp[9], digits = 2)`, Fig. \ref{fig:regressions}~A~). 
+
+ It was found that salinity was negatively associated (p `r ifelse(coef(dTSal[4])[2,4]<0.001, '< 0.001', paste("= ", format(coef(dTSal[4])[2,4], digits = 2), sep = ""))`, adj. R^2^ = `r format(dTSal[9], digits = 2)`, Fig. \ref{fig:regressions}~V~) with D-hinge larval counts.
+
+It was found that temperature was positively associated (p `r ifelse(coef(vTTemp[4])[2,4]<0.001, '< 0.001', paste("= ", format(coef(vTTemp[4])[2,4], digits = 2), sep = ""))`, adj. R^2^ = `r format(vTTemp[9], digits = 2)`, Fig. \ref{fig:regressions}~C~) with veliger larval counts.
+ 
+# Discussion
+
+The purpose of studying this data was to find factors that could effect oyster larval levels within the GBE. Out of the physiochemical factors that were recorded and analyzed, only temperature effected both D-hinge and veliger larval levels,
+
+
+
+
+
+
+
 
 ```{r, message = FALSE}
 larvalTypeTable3 <- larvalTypeTable %>% 
@@ -227,7 +279,7 @@ kable(tukeyV)
 ```
 
 ```{r}
-#signif
+
 dTTemp <- summary(lm(avgCount ~ Temp, data = dfD))
 
 dTTemp %>% 
@@ -246,7 +298,6 @@ dTpH %>%
   prettify() %>% 
   kable()
 
-#signif
 vTTemp<- summary(lm(avgCount ~ Temp, data = dfV))
 
 vTTemp %>% 
@@ -259,7 +310,6 @@ vTSal %>%
   prettify() %>% 
   kable()
 
-#signif
 vTpH <- summary(lm(avgCount ~ pH, data = dfV)) 
 
 vTpH %>% 
@@ -267,37 +317,7 @@ vTpH %>%
   kable()
 ```
 
-```{r, fig.height= 2.0}
 
-dTemp <- dfD %>% 
-  ggplot(aes(x = Temp, y = avgCount)) +
-  geom_point(alpha = 0.5, size = 0.5) +
-  geom_smooth(method = "lm", fullrange = TRUE, color = "black") +
-  labs(x = "Temerature (°C)", y = "D-hinge larval count") +
-  stat_cor(size = 3) +
-  theme_minimal() +
-  theme(text=element_text(size=10))
-
-vTemp <- dfV %>% 
-  ggplot(aes(x = Temp, y = avgCount)) +
-  geom_point(alpha = 0.5, size = 0.5) +
-  geom_smooth(method = "lm", fullrange = TRUE, color = "black") +
-  labs(x = "Temperature (°C)", y = "Veliger larval count") +
-  stat_cor(size = 3) +
-  theme_minimal() +
-  theme(text=element_text(size=10))
-
-vpH <- dfV %>% 
-  ggplot(aes(x = pH, y = avgCount)) +
-  geom_point(alpha = 0.5, size = 0.5) +
-  geom_smooth(method = "lm", fullrange = TRUE, color = "black") +
-  labs(x = "pH", y = "Veliger larval count") +
-  stat_cor(size = 3) +
-  theme_minimal() +
-  theme(text=element_text(size=10))
-
-ggarrange(dTemp, vTemp, vpH, ncol = 3, heights = 1.5, widths = 2, labels = c("A", "B", "C"), font.label = list(size = 10))
-```
 
 
 
